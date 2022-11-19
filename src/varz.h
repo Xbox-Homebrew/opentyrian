@@ -26,16 +26,17 @@
 
 #include <stdbool.h>
 
-#define SA 7
+#define SA 9
 
 enum
 {
 	SA_NONE = 0,
 	SA_NORTSHIPZ = 7,
+	SA_LASTSHIP = 9,
 	
 	// only used for code entry
-	SA_DESTRUCT = 8,
-	SA_ENGAGE = 9,
+	SA_DESTRUCT = 10,
+	SA_ENGAGE = 11,
 	
 	// only used in pItems[P_SUPERARCADE]
 	SA_SUPERTYRIAN = 254,
@@ -220,7 +221,7 @@ extern const JE_byte randomEnemyLaunchSounds[3];
 extern const JE_byte keyboardCombos[26][8];
 extern const JE_byte shipCombosB[21];
 extern const JE_byte superTyrianSpecials[4];
-extern const JE_byte shipCombos[14][3];
+extern const JE_byte shipCombos[19][3];
 extern JE_byte SFCurrentCode[2][21];
 extern JE_byte SFExecuted[2];
 extern JE_byte lvlFileNum;

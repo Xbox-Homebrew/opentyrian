@@ -1,5 +1,8 @@
-The OpenTyrian Development Team
-================================================================================
+== OpenTyrian2000 ==============================================================
+
+Tyrian 2000 support added by Kaito Sinclaire (KScl).
+
+== OpenTyrian Development Team =================================================
 
 Carl W. Reinke <mindless2112\100gmail\056com>  (Mindless)
 Yuri K. Schlesner <yuriks@yuriks.net>  (yuriks)
@@ -25,7 +28,7 @@ Jason Emery
  * Tyrian source code
 
 DOSBox
- * FM Sythesis emulator code
+ * FM Synthesis emulator code
 
 AdPlug
  * Loudness player code

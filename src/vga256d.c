@@ -44,7 +44,7 @@ void JE_pix( SDL_Surface *surface, int x, int y, JE_byte c )
 
 void JE_pix3( SDL_Surface *surface, int x, int y, JE_byte c )
 {
-	/* Originally impemented as several direct accesses */
+	/* Originally implemented as several direct accesses */
 	JE_pix(surface, x, y, c);
 	JE_pix(surface, x - 1, y, c);
 	JE_pix(surface, x + 1, y, c);
@@ -152,10 +152,10 @@ void draw_segmented_gauge( SDL_Surface *surface, int x, int y, Uint8 color, uint
 
 	for (uint i = 0; i < segments; ++i)
 	{
-		fill_rectangle_hw(surface, x, y, segment_width, segment_height, color + 12);
+		fill_rectangle_wh(surface, x, y, segment_width, segment_height, color + 12);
 		x += segment_width + 1;
 	}
 	if (partial_segment > 0)
-		fill_rectangle_hw(surface, x, y, segment_width, segment_height, color + (12 * partial_segment / segment_value));
+		fill_rectangle_wh(surface, x, y, segment_width, segment_height, color + (12 * partial_segment / segment_value));
 }
 

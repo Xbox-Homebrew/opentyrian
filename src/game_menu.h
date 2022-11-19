@@ -45,6 +45,7 @@ void JE_computeDots( void );
 JE_integer JE_partWay( JE_integer start, JE_integer finish, JE_byte dots, JE_byte dist );
 void JE_doShipSpecs( void );
 void JE_drawMainMenuHelpText( void );
+JE_boolean JE_saveRequest( JE_byte slot, const char *savename );
 JE_boolean JE_quitRequest( void );
 void JE_genItemMenu( JE_byte itemnum );
 void JE_scaleInPicture( SDL_Surface *dst, const SDL_Surface *src );

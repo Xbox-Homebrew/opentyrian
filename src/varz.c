@@ -38,10 +38,10 @@
 
 JE_integer tempDat, tempDat2, tempDat3;
 
-const JE_byte SANextShip[SA + 2] /* [0..SA + 1] */ = { 3, 9, 6, 2, 5, 1, 4, 3, 7 }; // 0 -> 3 -> 2 -> 6 -> 4 -> 5 -> 1 -> 9 -> 7
-const JE_word SASpecialWeapon[SA] /* [1..SA] */  = { 7, 8, 9, 10, 11, 12, 13 };
-const JE_word SASpecialWeaponB[SA] /* [1..SA] */ = {37, 6, 15, 40, 16, 14, 41 };
-const JE_byte SAShip[SA] /* [1..SA] */ = { 3, 1, 5, 10, 2, 11, 12 };
+const JE_byte SANextShip[SA + 2] /* [0..SA + 1] */ = { 3, 8, 6, 2, 5, 1, 4, 10, 9, 7, 3 };
+const JE_word SASpecialWeapon[SA] /* [1..SA] */  = { 7, 8, 9, 10, 11, 12, 13, 48, 47 };
+const JE_word SASpecialWeaponB[SA] /* [1..SA] */ = {37, 6, 15, 40, 16, 14, 41, 48, 47 };
+const JE_byte SAShip[SA] /* [1..SA] */ = { 3, 1, 5, 10, 2, 11, 12, 15, 17 };
 const JE_word SAWeapon[SA][5] /* [1..SA, 1..5] */ =
 {  /*  R  Bl  Bk  G   P */
 	{  9, 31, 32, 33, 34 },  /* Stealth Ship */
@@ -50,7 +50,9 @@ const JE_word SAWeapon[SA][5] /* [1..SA, 1..5] */ =
 	{ 15,  3, 28, 22, 12 },  /* Enemy        */
 	{ 23, 35, 25, 14,  6 },  /* Weird        */
 	{  2,  5, 21,  4,  7 },  /* Unknown      */
-	{ 40, 38, 37, 41, 36 }   /* NortShip Z   */
+	{ 40, 38, 37, 41, 36 },  /* NortShip Z   */
+	{ 47, 45, 19, 33, 19 },  /* Dragon       */
+	{ 44, 26, 46, 26,  1 }   /* Pretzel Pete */
 };
 
 const JE_byte specialArcadeWeapon[PORT_NUM] /* [1..Portnum] */ =
@@ -148,7 +150,7 @@ const JE_byte shipCombosB[21] /* [1..21] */ =
   /*!! SUPER Tyrian !!*/
 const JE_byte superTyrianSpecials[4] /* [1..4] */ = {1,2,4,5};
 
-const JE_byte shipCombos[14][3] /* [0..12, 1..3] */ =
+const JE_byte shipCombos[19][3] /* [0..12, 1..3] */ =
 {
 	{ 5, 4, 7},  /*2nd Player ship*/
 	{ 1, 2, 0},  /*USP Talon*/
@@ -163,7 +165,12 @@ const JE_byte shipCombos[14][3] /* [0..12, 1..3] */ =
 	{ 7,16,17},  /*U-Ship*/
 	{ 2,11,12},  /*1st Player ship*/
 	{ 3, 8,10},  /*Nort ship*/
-	{ 0, 0, 0}   // Dummy entry added for Stalker 21.126
+	{ 0, 0, 0},  // Dummy entry added for Stalker 21.126
+	{ 1, 0, 0},  /*Storm*/
+	{ 4, 0, 0},  /*Red Dragon*/
+	{ 5, 9, 2},  /*Gencore II*/
+	{ 0, 0, 0},  /*PeteZoomer*/
+	{ 0, 0, 0}   /*Rum Bottle*/
 };
 
 /*Street-Fighter Commands*/
@@ -329,7 +336,7 @@ void JE_getShipInfo( void )
 {
 	JE_boolean extraShip, extraShip2;
 
-	shipGrPtr = &shapes9;
+	shipGrPtr = (ships[player[0].items.ship].shipgraphic > 500) ? &shapesT2k : &shapes9;
 	shipGr2ptr = &shapes9;
 
 	powerAdd  = powerSys[player[0].items.generator].power;
@@ -343,7 +350,7 @@ void JE_getShipInfo( void )
 	}
 	else
 	{
-		shipGr = ships[player[0].items.ship].shipgraphic;
+		shipGr = ships[player[0].items.ship].shipgraphic - (shipGrPtr == &shapesT2k ? 500 : 0);
 		player[0].armor = ships[player[0].items.ship].dmg;
 	}
 
@@ -491,10 +498,10 @@ void JE_tyrianHalt( JE_byte code )
 		       "Sleep well, Trent, you deserve the rest.\n"
 		       "You now have permission to borrow my ship on your next mission.\n"
 		       "\n"
-		       "Also, you might want to try out the YESXMAS parameter.\n"
+		       "Also, you might want to try out the YESXMAS parameter in Dos.\n"
 		       "  Type: File0001 YESXMAS\n"
 		       "\n"
-		       "You'll need the 2.1 patch, though!\n"
+		       " Press a Key to Quit\n"
 		       "\n");
 	}
 
@@ -874,7 +881,7 @@ void JE_setupExplosion( signed int x, signed int y, signed int delta_y, unsigned
 	const struct {
 		JE_word sprite;
 		JE_byte ttl;
-	} explosion_data[53] /* [1..53] */ = {
+	} explosion_data[54] /* [1..54] */ = {
 		{ 144,  7 },
 		{ 120, 12 },
 		{ 190, 12 },
@@ -927,7 +934,8 @@ void JE_setupExplosion( signed int x, signed int y, signed int delta_y, unsigned
 		{ 208, 14 },
 		{ 246, 14 },
 		{ 227, 14 },
-		{ 265, 14 }
+		{ 265, 14 },
+		{  96,  3 }
 	};
 
 	if (y > -16 && y < 190)
@@ -1051,7 +1059,8 @@ JE_byte JE_playerDamage( JE_byte temp,
 
 				if (this_player->is_alive && !youAreCheating)
 				{
-					levelTimer = false;
+					if (!timedBattleMode)
+						levelTimer = false;
 					this_player->is_alive = false;
 					this_player->exploding_ticks = 60;
 					levelEnd = 40;

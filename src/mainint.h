@@ -60,7 +60,6 @@ bool load_next_demo( void );
 bool replay_demo_keys( void );
 
 void JE_SFCodes( JE_byte playerNum_, JE_integer PX_, JE_integer PY_, JE_integer mouseX_, JE_integer mouseY_ );
-void JE_sort( void );
 
 long weapon_upgrade_cost( long base_cost, unsigned int power );
 ulong JE_getCost( JE_byte itemType, JE_word itemNum );

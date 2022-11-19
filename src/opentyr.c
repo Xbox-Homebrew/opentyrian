@@ -55,7 +55,7 @@
 #include <string.h>
 #include <time.h>
 
-const char *opentyrian_str = "OpenTyrian";
+const char *opentyrian_str = "OpenTyrian2000";
 const char *opentyrian_version = OPENTYRIAN_VERSION;
 
 void opentyrian_menu( void )
@@ -74,7 +74,7 @@ void opentyrian_menu( void )
 
 	static const char *menu_items[] =
 	{
-		"About OpenTyrian",
+		"About OpenTyrian2000",
 		NULL,  // "Windowed" or "Fullscreen: Display %d"
 		NULL,  // "Scaler: %s"
 		NULL,  // "Scaling Mode: %s"
@@ -99,7 +99,8 @@ void opentyrian_menu( void )
 	fade_black(10);
 	JE_loadPic(VGAScreen, 13, false);
 
-	draw_font_hv(VGAScreen, VGAScreen->w / 2, 5, opentyrian_str, large_font, centered, 15, -3);
+	draw_font_hv(VGAScreen, (VGAScreen->w / 2) - 18, 5, "OpenTyrian", large_font, centered, 15, -3);
+	draw_font_hv(VGAScreen, (VGAScreen->w / 2) + 42, 12, "2000", normal_font, left_aligned, 15, -3);
 
 	memcpy(VGAScreen2->pixels, VGAScreen->pixels, VGAScreen2->pitch * VGAScreen2->h);
 
@@ -153,6 +154,8 @@ void opentyrian_menu( void )
 		if (sel == MENU_FULLSCREEN || sel == MENU_SCALER || sel == MENU_SCALING_MODE) {
 			draw_font_hv_shadow(VGAScreen, VGAScreen->w / 2, 190, "Change option with Left/Right keys then press Enter.",
 					small_font, centered, 15, 2, true, 1);
+		} else {
+			draw_font_hv_shadow(VGAScreen, VGAScreen->w / 2, 190, opentyrian_version, small_font, centered, 15, 2, true, 1);
 		}
 
 		JE_showVGA();
@@ -326,7 +329,7 @@ int main( int argc, char *argv[] )
 
 	printf("This program comes with ABSOLUTELY NO WARRANTY.\n");
 	printf("This is free software, and you are welcome to redistribute it\n");
-	printf("under certain conditions.  See the file GPL.txt for details.\n\n");
+	printf("under certain conditions.  See the file COPYING for details.\n\n");
 
 	if (SDL_Init(0))
 	{
@@ -334,11 +337,18 @@ int main( int argc, char *argv[] )
 		return -1;
 	}
 
-	JE_loadConfiguration();
+	// Note for this reorganization:
+	// Tyrian 2000 requires help text to be loaded before the configuration,
+	// because the default high score names are stored in help text
+
+	JE_paramCheck(argc, argv);
 
 	xmas = xmas_time();  // arg handler may override
 
-	JE_paramCheck(argc, argv);
+	JE_loadHelpText();
+	/*debuginfo("Help text complete");*/
+
+	JE_loadConfiguration();
 
 	JE_scanForEpisodes();
 
@@ -390,9 +400,6 @@ int main( int argc, char *argv[] )
 		printf("demo recording enabled (input limited to keyboard)\n");
 
 	JE_loadExtraShapes();  /*Editship*/
-
-	JE_loadHelpText();
-	/*debuginfo("Help text complete");*/
 
 	if (isNetworkGame)
 	{

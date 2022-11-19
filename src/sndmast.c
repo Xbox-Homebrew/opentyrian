@@ -51,6 +51,8 @@ const char soundTitle[SAMPLE_COUNT][9] = /* [1..soundnum + 9] of string [8] */
 	"TEMP16",
 	"SMALL1",
 	"POWERUP",
+	"MARS3",
+	"NEEDLE2",
 	"VOICE1",
 	"VOICE2",
 	"VOICE3",

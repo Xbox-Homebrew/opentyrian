@@ -72,29 +72,33 @@ void JE_loadItemDat( void )
 	JE_word itemNum[7]; /* [1..7] */
 	fread_u16_die(itemNum, 7, f);
 
-	for (int i = 0; i < WEAP_NUM + 1; ++i)
+	const int weapons_bounds[2][2] = {{0, WEAP_END1}, {WEAP_START2, WEAP_NUM}};
+	for (int bank = 0; bank < 2; ++bank)
 	{
-		fread_u16_die(&weapons[i].drain,           1, f);
-		fread_u8_die( &weapons[i].shotrepeat,      1, f);
-		fread_u8_die( &weapons[i].multi,           1, f);
-		fread_u16_die(&weapons[i].weapani,         1, f);
-		fread_u8_die( &weapons[i].max,             1, f);
-		fread_u8_die( &weapons[i].tx,              1, f);
-		fread_u8_die( &weapons[i].ty,              1, f);
-		fread_u8_die( &weapons[i].aim,             1, f);
-		fread_u8_die(  weapons[i].attack,          8, f);
-		fread_u8_die(  weapons[i].del,             8, f);
-		fread_s8_die(  weapons[i].sx,              8, f);
-		fread_s8_die(  weapons[i].sy,              8, f);
-		fread_s8_die(  weapons[i].bx,              8, f);
-		fread_s8_die(  weapons[i].by,              8, f);
-		fread_u16_die( weapons[i].sg,              8, f);
-		fread_s8_die( &weapons[i].acceleration,    1, f);
-		fread_s8_die( &weapons[i].accelerationx,   1, f);
-		fread_u8_die( &weapons[i].circlesize,      1, f);
-		fread_u8_die( &weapons[i].sound,           1, f);
-		fread_u8_die( &weapons[i].trail,           1, f);
-		fread_u8_die( &weapons[i].shipblastfilter, 1, f);
+		for (int i = weapons_bounds[bank][0]; i < weapons_bounds[bank][1] + 1; ++i)
+		{
+			fread_u16_die(&weapons[i].drain,           1, f);
+			fread_u8_die( &weapons[i].shotrepeat,      1, f);
+			fread_u8_die( &weapons[i].multi,           1, f);
+			fread_u16_die(&weapons[i].weapani,         1, f);
+			fread_u8_die( &weapons[i].max,             1, f);
+			fread_u8_die( &weapons[i].tx,              1, f);
+			fread_u8_die( &weapons[i].ty,              1, f);
+			fread_u8_die( &weapons[i].aim,             1, f);
+			fread_u8_die(  weapons[i].attack,          8, f);
+			fread_u8_die(  weapons[i].del,             8, f);
+			fread_s8_die(  weapons[i].sx,              8, f);
+			fread_s8_die(  weapons[i].sy,              8, f);
+			fread_s8_die(  weapons[i].bx,              8, f);
+			fread_s8_die(  weapons[i].by,              8, f);
+			fread_u16_die( weapons[i].sg,              8, f);
+			fread_s8_die( &weapons[i].acceleration,    1, f);
+			fread_s8_die( &weapons[i].accelerationx,   1, f);
+			fread_u8_die( &weapons[i].circlesize,      1, f);
+			fread_u8_die( &weapons[i].sound,           1, f);
+			fread_u8_die( &weapons[i].trail,           1, f);
+			fread_u8_die( &weapons[i].shipblastfilter, 1, f);
+		}
 	}
 	
 	for (int i = 0; i < PORT_NUM + 1; ++i)
@@ -182,37 +186,41 @@ void JE_loadItemDat( void )
 		fread_u16_die(&shields[i].itemgraphic, 1, f);
 		fread_u16_die(&shields[i].cost,        1, f);
 	}
-	
-	for (int i = 0; i < ENEMY_NUM + 1; ++i)
+
+	const int enemies_bounds[2][2] = {{0, ENEMY_END1}, {ENEMY_START2, ENEMY_NUM}};
+	for (int bank = 0; bank < 2; ++bank)
 	{
-		fread_u8_die( &enemyDat[i].ani,           1, f);
-		fread_u8_die(  enemyDat[i].tur,           3, f);
-		fread_u8_die(  enemyDat[i].freq,          3, f);
-		fread_s8_die( &enemyDat[i].xmove,         1, f);
-		fread_s8_die( &enemyDat[i].ymove,         1, f);
-		fread_s8_die( &enemyDat[i].xaccel,        1, f);
-		fread_s8_die( &enemyDat[i].yaccel,        1, f);
-		fread_s8_die( &enemyDat[i].xcaccel,       1, f);
-		fread_s8_die( &enemyDat[i].ycaccel,       1, f);
-		fread_s16_die(&enemyDat[i].startx,        1, f);
-		fread_s16_die(&enemyDat[i].starty,        1, f);
-		fread_s8_die( &enemyDat[i].startxc,       1, f);
-		fread_s8_die( &enemyDat[i].startyc,       1, f);
-		fread_u8_die( &enemyDat[i].armor,         1, f);
-		fread_u8_die( &enemyDat[i].esize,         1, f);
-		fread_u16_die( enemyDat[i].egraphic,     20, f);
-		fread_u8_die( &enemyDat[i].explosiontype, 1, f);
-		fread_u8_die( &enemyDat[i].animate,       1, f);
-		fread_u8_die( &enemyDat[i].shapebank,     1, f);
-		fread_s8_die( &enemyDat[i].xrev,          1, f);
-		fread_s8_die( &enemyDat[i].yrev,          1, f);
-		fread_u16_die(&enemyDat[i].dgr,           1, f);
-		fread_s8_die( &enemyDat[i].dlevel,        1, f);
-		fread_s8_die( &enemyDat[i].dani,          1, f);
-		fread_u8_die( &enemyDat[i].elaunchfreq,   1, f);
-		fread_u16_die(&enemyDat[i].elaunchtype,   1, f);
-		fread_s16_die(&enemyDat[i].value,         1, f);
-		fread_u16_die(&enemyDat[i].eenemydie,     1, f);
+		for (int i = enemies_bounds[bank][0]; i < enemies_bounds[bank][1] + 1; ++i)
+		{
+			fread_u8_die( &enemyDat[i].ani,           1, f);
+			fread_u8_die(  enemyDat[i].tur,           3, f);
+			fread_u8_die(  enemyDat[i].freq,          3, f);
+			fread_s8_die( &enemyDat[i].xmove,         1, f);
+			fread_s8_die( &enemyDat[i].ymove,         1, f);
+			fread_s8_die( &enemyDat[i].xaccel,        1, f);
+			fread_s8_die( &enemyDat[i].yaccel,        1, f);
+			fread_s8_die( &enemyDat[i].xcaccel,       1, f);
+			fread_s8_die( &enemyDat[i].ycaccel,       1, f);
+			fread_s16_die(&enemyDat[i].startx,        1, f);
+			fread_s16_die(&enemyDat[i].starty,        1, f);
+			fread_s8_die( &enemyDat[i].startxc,       1, f);
+			fread_s8_die( &enemyDat[i].startyc,       1, f);
+			fread_u8_die( &enemyDat[i].armor,         1, f);
+			fread_u8_die( &enemyDat[i].esize,         1, f);
+			fread_u16_die( enemyDat[i].egraphic,     20, f);
+			fread_u8_die( &enemyDat[i].explosiontype, 1, f);
+			fread_u8_die( &enemyDat[i].animate,       1, f);
+			fread_u8_die( &enemyDat[i].shapebank,     1, f);
+			fread_s8_die( &enemyDat[i].xrev,          1, f);
+			fread_s8_die( &enemyDat[i].yrev,          1, f);
+			fread_u16_die(&enemyDat[i].dgr,           1, f);
+			fread_s8_die( &enemyDat[i].dlevel,        1, f);
+			fread_s8_die( &enemyDat[i].dani,          1, f);
+			fread_u8_die( &enemyDat[i].elaunchfreq,   1, f);
+			fread_u16_die(&enemyDat[i].elaunchtype,   1, f);
+			fread_s16_die(&enemyDat[i].value,         1, f);
+			fread_u16_die(&enemyDat[i].eenemydie,     1, f);
+		}
 	}
 	
 	fclose(f);
@@ -225,9 +233,9 @@ void JE_initEpisode( JE_byte newEpisode )
 	
 	episodeNum = newEpisode;
 	
-	sprintf(levelFile,    "tyrian%d.lvl",  episodeNum);
-	sprintf(cube_file,    "cubetxt%d.dat", episodeNum);
-	sprintf(episode_file, "levels%d.dat",  episodeNum);
+	sprintf(levelFile,    "tyrian%hhu.lvl",  episodeNum);
+	sprintf(cube_file,    "cubetxt%hhu.dat", episodeNum);
+	sprintf(episode_file, "levels%hhu.dat",  episodeNum);
 	
 	JE_analyzeLevel();
 	JE_loadItemDat();

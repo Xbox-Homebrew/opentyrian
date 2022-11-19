@@ -55,6 +55,8 @@ typedef JE_byte DosKeySettings[8];  // fka KeySettingType
 
 typedef SDL_Scancode KeySettings[8];
 
+typedef JE_byte MouseSettings[3];
+
 typedef JE_byte JE_PItemsType[12]; /* [1..12] */
 
 typedef JE_byte JE_EditorItemAvailType[100]; /* [1..100] */
@@ -89,11 +91,23 @@ typedef struct
 typedef JE_SaveFileType JE_SaveFilesType[SAVE_FILES_NUM]; /* [1..savefilesnum] */
 typedef JE_byte JE_SaveGameTemp[SAVE_FILES_SIZE + 4 + 100]; /* [1..sizeof(savefilestype) + 4 + 100] */
 
+typedef struct
+{
+	// Tyrian 2000 uses a different high scores struct and appends it to TYRIAN.SAV
+	JE_longint    score;
+	char          playerName[30];
+	JE_byte       difficulty;
+} T2KHighScoreType;
+
+// First 10 are timed battle, next 10 are episodes
+extern T2KHighScoreType t2kHighScores[20][3];
+
 extern const JE_byte cryptKey[10];
 extern const DosKeySettings defaultDosKeySettings;  // fka defaultKeySettings
 extern const KeySettings defaultKeySettings;
-extern const char defaultHighScoreNames[34][23];
-extern const char defaultTeamNames[22][25];
+extern const MouseSettings defaultMouseSettings;
+extern char defaultHighScoreNames[39][23];
+extern char defaultTeamNames[10][25];
 extern const JE_EditorItemAvailType initialItemAvail;
 extern JE_boolean smoothies[9];
 extern JE_byte starShowVGASpecialCode;
@@ -101,6 +115,7 @@ extern JE_word lastCubeMax, cubeMax;
 extern JE_word cubeList[4];
 extern JE_boolean gameHasRepeated;
 extern JE_shortint difficultyLevel, oldDifficultyLevel, initialDifficulty;
+extern JE_byte battle_select;
 extern uint power, lastPower, powerAdd;
 extern JE_byte shieldWait, shieldT;
 
@@ -125,12 +140,13 @@ extern char lastLevelName[11], levelName[11];
 extern JE_byte mainLevel, nextLevel, saveLevel;
 extern DosKeySettings dosKeySettings;  // fka keySettings
 extern KeySettings keySettings;
+extern MouseSettings mouseSettings;
 extern JE_shortint levelFilter, levelFilterNew, levelBrightness, levelBrightnessChg;
 extern JE_boolean filtrationAvail, filterActive, filterFade, filterFadeStart;
 extern JE_boolean gameJustLoaded;
 extern JE_boolean galagaMode;
 extern JE_boolean extraGame;
-extern JE_boolean twoPlayerMode, twoPlayerLinked, onePlayerAction, superTyrian, trentWin;
+extern JE_boolean twoPlayerMode, twoPlayerLinked, onePlayerAction, timedBattleMode, superTyrian, trentWin;
 extern JE_byte superArcadeMode;
 extern JE_byte superArcadePowerUp;
 extern JE_real linkGunDirec;

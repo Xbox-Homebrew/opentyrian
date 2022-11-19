@@ -31,6 +31,7 @@
 #include "video.h"
 
 char episode_name[6][31], difficulty_name[7][21], gameplay_name[GAMEPLAY_NAME_COUNT][26];
+char timed_battle_name[4][23];
 
 bool select_gameplay( void )
 {
@@ -84,6 +85,7 @@ bool select_gameplay( void )
 				JE_playSampleNum(S_SELECT);
 				fade_black(10);
 
+				timedBattleMode = (gameplay == 3);
 				onePlayerAction = (gameplay == 2);
 				twoPlayerMode = (gameplay == GAMEPLAY_NAME_COUNT - 2);
 				return true;
@@ -244,6 +246,77 @@ bool select_difficulty( void )
 				} else if (difficultyLevel == 5) {
 					difficultyLevel = 6;
 				}
+				return true;
+
+			case SDL_SCANCODE_ESCAPE:
+				JE_playSampleNum(S_SPRING);
+				/* fading handled elsewhere
+				fade_black(10); */
+
+				return false;
+
+			default:
+				break;
+			}
+		}
+	}
+}
+
+bool select_timed_battle( void )
+{
+	JE_loadPic(VGAScreen, 2, false);
+	JE_dString(VGAScreen, JE_fontCenter(timed_battle_name[0], FONT_SHAPES), 20, timed_battle_name[0], FONT_SHAPES);
+
+	battle_select = 1;
+	int battle_max = COUNTOF(timed_battle_name) - 1;
+
+	bool fade_in = true;
+	for (; ; )
+	{
+		for (int i = 1; i <= battle_max; i++)
+		{
+			JE_outTextAdjust(VGAScreen, JE_fontCenter(timed_battle_name[i], SMALL_FONT_SHAPES), i * 24 + 30, timed_battle_name[i], 15, -4 + (i == battle_select ? 2 : 0), SMALL_FONT_SHAPES, true);
+		}
+		JE_showVGA();
+
+		if (fade_in)
+		{
+			fade_palette(colors, 10, 0, 255);
+			fade_in = false;
+		}
+
+		JE_word temp = 0;
+		JE_textMenuWait(&temp, false);
+
+		if (newkey)
+		{
+			switch (lastkey_scan)
+			{
+			case SDL_SCANCODE_UP:
+				battle_select--;
+				if (battle_select < 1)
+				{
+					battle_select = battle_max;
+				}
+				JE_playSampleNum(S_CURSOR);
+				break;
+			case SDL_SCANCODE_DOWN:
+				battle_select++;
+				if (battle_select > battle_max)
+				{
+					battle_select = 1;
+				}
+				JE_playSampleNum(S_CURSOR);
+				break;
+
+			case SDL_SCANCODE_RETURN:
+				JE_playSampleNum(S_SELECT);
+
+				// I don't know how T2K determines episode from this,
+				// I'm assuming it's hardcoded
+				JE_initEpisode(battle_select == 1 ? 1 : 5);
+				initial_episode_num = battle_select + 5;
+				fade_black(10);
 				return true;
 
 			case SDL_SCANCODE_ESCAPE:

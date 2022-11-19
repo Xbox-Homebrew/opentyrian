@@ -54,7 +54,7 @@ JE_byte textGlowFont, textGlowBrightness = 6;
 
 JE_boolean levelWarningDisplay;
 JE_byte levelWarningLines;
-char levelWarningText[10][61]; /* [1..10] of string [60] */
+char levelWarningText[12][61]; /* [1..10] of string [60] */
 JE_boolean warningRed;
 
 JE_byte warningSoundDelay;

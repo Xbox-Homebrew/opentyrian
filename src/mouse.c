@@ -29,7 +29,6 @@ bool has_mouse = false;
 #else
 bool has_mouse = true;
 #endif
-bool mouse_has_three_buttons = true;
 
 JE_word lastMouseX, lastMouseY;
 JE_byte mouseCursor;

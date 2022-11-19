@@ -32,7 +32,7 @@
  * to not have available.  Destruct has no configuration options in game, but
  * that doesn't stop us from changing various limiting vars and letting
  * people remap the keyboard.  AIs may also be introduced here; fighting a
- * stateless AI isn't really challenging afterall.
+ * stateless AI isn't really challenging after all.
  *
  * This hidden config also allows for a hidden game mode!  Though as a custom
  * game mode wouldn't show up in the data files it forces us to distinguish
@@ -40,7 +40,7 @@
  * is only used with loaded data.
  *
  * Things I wanted to do but can't: Remove references to VGAScreen.  For
- * a multitude of reasons this just isn't feasable.  It would have been nice
+ * a multitude of reasons this just isn't feasible.  It would have been nice
  * to increase the playing field though...
  */
 
@@ -470,7 +470,7 @@ static void load_destruct_config( Config *config_ )
 				// set defaults
 				for (unsigned int i = 0; i < COUNTOF(defaultKeyConfig[p][k]); ++i)
 					if (defaultKeyConfig[p][k][i] != SDL_SCANCODE_UNKNOWN)
-						config_add_value(option, SDL_GetKeyName(defaultKeyConfig[p][k][i]));
+						config_add_value(option, SDL_GetScancodeName(defaultKeyConfig[p][k][i]));
 			}
 		}
 	}
@@ -612,7 +612,7 @@ static void JE_destructMain( void )
 static void JE_introScreen( void )
 {
 	memcpy(VGAScreen2->pixels, VGAScreen->pixels, VGAScreen2->h * VGAScreen2->pitch);
-	JE_outText(VGAScreen, JE_fontCenter(specialName[7], TINY_FONT), 90, specialName[7], 12, 5);
+	JE_outText(VGAScreen, JE_fontCenter(specialName[SA_DESTRUCT - 1], TINY_FONT), 90, specialName[SA_DESTRUCT - 1], 12, 5);
 	JE_outText(VGAScreen, JE_fontCenter(miscText[64], TINY_FONT), 180, miscText[64], 15, 2);
 	JE_outText(VGAScreen, JE_fontCenter(miscText[65], TINY_FONT), 190, miscText[65], 15, 2);
 	JE_showVGA();
@@ -1324,7 +1324,7 @@ static void JE_pauseScreen( void )
 
 /* DE_ResetX
  *
- * The reset functions clear the state of whatefer they are assigned to.
+ * The reset functions clear the state of whatever they are assigned to.
  */
 static void DE_ResetUnits( void )
 {
@@ -1511,7 +1511,7 @@ static enum de_state_t DE_RunTick( void )
 /* DE_RunTickX
  *
  * Handles something that we do once per tick, such as
- * track ammo and move asplosions.
+ * track ammo and move explosions.
  */
 static void DE_RunTickCycleDeadUnits( void )
 {
@@ -1585,7 +1585,7 @@ static void DE_GravityDrawUnit( enum de_player_t team, struct destruct_unit_s * 
 	anim_index = GraphicBase[team][unit->unitType] + unit->ani_frame;
 	if (unit->unitType == UNIT_HELI)
 	{
-		/* Adjust animation index if we are travelling right or left. */
+		/* Adjust animation index if we are traveling right or left. */
 		if (unit->lastMove < -2)
 			anim_index += 5;
 		else if (unit->lastMove > 2)
@@ -2090,9 +2090,9 @@ static void DE_RunTickAI( void )
 			ptrUnit = ptrTarget->unit;
 			for (j = 0; j < config.max_installations; j++, ptrUnit++)
 			{
-				if (abs(ptrUnit->unitX - ptrCurUnit->unitX) < 8)
+				if (abs((int)ptrUnit->unitX - (int)ptrCurUnit->unitX) < 8)
 				{
-					/* I get it.  This makes helicoptors hover over
+					/* I get it.  This makes helicopters hover over
 					 * their enemies. */
 					if (ptrUnit->unitType == UNIT_SATELLITE)
 					{

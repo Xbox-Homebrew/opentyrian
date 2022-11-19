@@ -36,7 +36,7 @@
 #define EXTRA_SHAPES      7 /*Used for Ending pics*/
 
 #define SPRITE_TABLES_MAX        8
-#define SPRITES_PER_TABLE_MAX  151
+#define SPRITES_PER_TABLE_MAX  152
 
 typedef struct
 {
@@ -94,7 +94,7 @@ typedef struct
 Sprite2_array;
 
 extern Sprite2_array eShapes[6];
-extern Sprite2_array shapesC1, shapes6, shapes9, shapesW2;
+extern Sprite2_array shapesC1, shapes6, shapes9, shapesW2, shapesT2k;
 
 void JE_loadCompShapes( Sprite2_array *, JE_char s );
 void JE_loadCompShapesB( Sprite2_array *, FILE *f );

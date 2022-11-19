@@ -34,7 +34,7 @@ const JE_byte menuHelp[MENU_MAX][11] = /* [1..maxmenu, 1..11] */
 {
 	{  1, 34,  2,  3,  4,  5,                  0, 0, 0, 0, 0 },
 	{  6,  7,  8,  9, 10, 11, 11, 12,                0, 0, 0 },
-	{ 13, 14, 15, 15, 16, 17, 12,                 0, 0, 0, 0 },
+	{ 13, 14, 15, 15, 16, 17, 35, 12,                0, 0, 0 },
 	{                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -42,10 +42,11 @@ const JE_byte menuHelp[MENU_MAX][11] = /* [1..maxmenu, 1..11] */
 	{                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{  4, 30, 30,  3,  5,                   0, 0, 0, 0, 0, 0 },
-	{                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{  4, 37, 12,                     0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 16, 17, 15, 15, 12,                   0, 0, 0, 0, 0, 0 },
 	{ 31, 31, 31, 31, 32, 12,                  0, 0, 0, 0, 0 },
-	{  4, 34,  3,  5,                    0, 0, 0, 0, 0, 0, 0 }
+	{  4, 34,  3,  5,                    0, 0, 0, 0, 0, 0, 0 },
+	{ 35, 35, 35, 36, 12,                   0, 0, 0, 0, 0, 0 }
 };
 
 JE_byte verticalHeight = 7;
@@ -75,6 +76,9 @@ char destructHelp[25][22];                                               /* [1..
 char weaponNames[17][17];                                                /* [1..17] of string [16] */
 char destructModeName[DESTRUCT_MODES][13];                               /* [1..destructmodes] of string [12] */
 char shipInfo[HELPTEXT_SHIPINFO_COUNT][2][256];                          /* [1..13, 1..2] of string */
+char licensingInfo[3][46];                                               /* [1..3] of string */
+char orderingInfo[6][32];                                                /* [1..6] of string */
+char superTyrianText[6][64];                                             /* [1..6] of string */
 char menuInt[MENU_MAX+1][11][18];                                        /* [0..14, 1..11] of string [17] */
 
 
@@ -185,7 +189,8 @@ void JE_HBox( SDL_Surface *screen, int x, int y, unsigned int  messagenum, unsig
 
 void JE_loadHelpText( void )
 {
-	const unsigned int menuInt_entries[MENU_MAX + 1] = { -1, 7, 9, 8, -1, -1, 11, -1, -1, -1, 6, 4, 6, 7, 5 };
+	const unsigned int menuInt_entries[MENU_MAX + 1] = { -1, 7, 9, 9, -1, -1, 11, -1, -1, -1, 6, 4, 7, 7, 5, 6 };
+	const unsigned int setup_entries[10] = {10, 5, 4, 4, 5, 7, 7, 21, 3, 3};
 	
 	FILE *f = dir_fopen_die(data_dir(), "tyrian.hdt", "rb");
 	fread_s32_die(&episode1DataLoc, 1, f);
@@ -225,6 +230,11 @@ void JE_loadHelpText( void )
 	for (unsigned int i = 0; i < COUNTOF(menuText); ++i)
 		read_encrypted_pascal_string(menuText[i], sizeof(menuText[i]), f);
 	skip_pascal_string(f);
+
+	// OpenTyrian2000 Override
+	strcpy(menuText[6], menuText[5]);
+	strcpy(menuText[5], menuText[4]);
+	strcpy(menuText[4], opentyrian_str);
 
 	/*Event text*/
 	skip_pascal_string(f);
@@ -385,10 +395,61 @@ void JE_loadHelpText( void )
 	}
 	skip_pascal_string(f);
 
-	/*Menu 12 - Network Options*/
+	/*Menu 14 - Super Tyrian*/
 	skip_pascal_string(f);
 	for (unsigned int i = 0; i < menuInt_entries[14]; ++i)
 		read_encrypted_pascal_string(menuInt[14][i], sizeof(menuInt[14][i]), f);
+	skip_pascal_string(f);
+
+	/*Timed Battle Planets*/
+	skip_pascal_string(f);
+	for (unsigned int i = 0; i < COUNTOF(timed_battle_name); ++i)
+		read_encrypted_pascal_string(timed_battle_name[i], sizeof(timed_battle_name[i]), f);
+	skip_pascal_string(f);
+
+	/*Setup entries, skipped since we don't use them*/
+	for (unsigned int entry = 0; entry < COUNTOF(setup_entries); ++entry)
+	{
+		skip_pascal_string(f);
+		for (unsigned int i = 0; i < setup_entries[entry]; ++i)
+			skip_pascal_string(f);
+		skip_pascal_string(f);
+	}
+
+	/*Menu 15 - Mouse Settings*/
+	skip_pascal_string(f);
+	for (unsigned int i = 0; i < menuInt_entries[15]; ++i)
+		read_encrypted_pascal_string(menuInt[15][i], sizeof(menuInt[15][i]), f);
+	skip_pascal_string(f);
+
+	/*Tyrian Licensing Info*/
+	skip_pascal_string(f);
+	for (unsigned int i = 0; i < COUNTOF(licensingInfo); ++i)
+		read_encrypted_pascal_string(licensingInfo[i], sizeof(licensingInfo[i]), f);
+	skip_pascal_string(f);
+
+	/*Default High Score Names*/
+	skip_pascal_string(f);
+	for (unsigned int i = 0; i < COUNTOF(defaultHighScoreNames); ++i)
+		read_encrypted_pascal_string(defaultHighScoreNames[i], sizeof(defaultHighScoreNames[i]), f);
+	skip_pascal_string(f);
+
+	/*Default Team Names*/
+	skip_pascal_string(f);
+	for (unsigned int i = 0; i < COUNTOF(defaultTeamNames); ++i)
+		read_encrypted_pascal_string(defaultTeamNames[i], sizeof(defaultTeamNames[i]), f);
+	skip_pascal_string(f);
+
+	/*Ordering Info?*/
+	skip_pascal_string(f);
+	for (unsigned int i = 0; i < COUNTOF(orderingInfo); ++i)
+		read_encrypted_pascal_string(orderingInfo[i], sizeof(orderingInfo[i]), f);
+	skip_pascal_string(f);
+
+	/*Super Tyrian text*/
+	skip_pascal_string(f);
+	for (unsigned int i = 0; i < COUNTOF(superTyrianText); ++i)
+		read_encrypted_pascal_string(superTyrianText[i], sizeof(superTyrianText[i]), f);
 
 	fclose(f);
 }

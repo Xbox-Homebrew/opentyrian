@@ -53,6 +53,11 @@ const DosKeySettings defaultDosKeySettings =
 	72, 80, 75, 77, 57, 28, 29, 56
 };
 
+const MouseSettings defaultMouseSettings =
+{
+	1, 4, 5
+};
+
 const KeySettings defaultKeySettings =
 {
 	SDL_SCANCODE_UP,
@@ -77,74 +82,24 @@ static const char *const keySettingNames[] =
 	"right sidekick",
 };
 
-const char defaultHighScoreNames[34][23] = /* [1..34] of string [22] */
-{/*1P*/
-/*TYR*/   "The Prime Chair", /*13*/
-          "Transon Lohk",
-          "Javi Onukala",
-          "Mantori",
-          "Nortaneous",
-          "Dougan",
-          "Reid",
-          "General Zinglon",
-          "Late Gyges Phildren",
-          "Vykromod",
-          "Beppo",
-          "Borogar",
-          "ShipMaster Carlos",
-
-/*OTHER*/ "Jill", /*5*/
-          "Darcy",
-          "Jake Stone",
-          "Malvineous Havershim",
-          "Marta Louise Velasquez",
-
-/*JAZZ*/  "Jazz Jackrabbit", /*3*/
-          "Eva Earlong",
-          "Devan Shell",
-
-/*OMF*/   "Crystal Devroe", /*11*/
-          "Steffan Tommas",
-          "Milano Angston",
-          "Christian",
-          "Shirro",
-          "Jean-Paul",
-          "Ibrahim Hothe",
-          "Angel",
-          "Cossette Akira",
-          "Raven",
-          "Hans Kreissack",
-
-/*DARE*/  "Tyler", /*2*/
-          "Rennis the Rat Guard"
-};
-
-const char defaultTeamNames[22][25] = /* [1..22] of string [24] */
+static const char *const mouseSettingNames[] =
 {
-	"Jackrabbits",
-	"Team Tyrian",
-	"The Elam Brothers",
-	"Dare to Dream Team",
-	"Pinball Freaks",
-	"Extreme Pinball Freaks",
-	"Team Vykromod",
-	"Epic All-Stars",
-	"Hans Keissack's WARriors",
-	"Team Overkill",
-	"Pied Pipers",
-	"Gencore Growlers",
-	"Microsol Masters",
-	"Beta Warriors",
-	"Team Loco",
-	"The Shellians",
-	"Jungle Jills",
-	"Murderous Malvineous",
-	"The Traffic Department",
-	"Clan Mikal",
-	"Clan Patrok",
-	"Carlos' Crawlers"
+	"left mouse",
+	"right mouse",
+	"middle mouse",
 };
 
+static const char *const mouseSettingValues[] =
+{
+	"fire main weapon",
+	"fire left sidekick",
+	"fire right sidekick",
+	"fire both sidekicks",
+	"change rear mode",
+};
+
+char defaultHighScoreNames[39][23]; /* [1..39] of string [22] */
+char defaultTeamNames[10][25]; /* [1..22] of string [24] */
 
 const JE_EditorItemAvailType initialItemAvail =
 {
@@ -181,6 +136,9 @@ JE_boolean gameHasRepeated;  // can only get highscore on first play-through
 JE_shortint difficultyLevel, oldDifficultyLevel,
             initialDifficulty;  // can only get highscore on initial episode
 
+/* Timed Battle */
+JE_byte battle_select;
+
 /* Player Stuff */
 uint    power, lastPower, powerAdd;
 JE_byte shieldWait, shieldT;
@@ -196,6 +154,9 @@ JE_byte mainLevel, nextLevel, saveLevel;   /*Current Level #*/
 DosKeySettings dosKeySettings;
 KeySettings keySettings;
 
+/* Mouse settings */
+MouseSettings mouseSettings;
+
 /* Configuration */
 JE_shortint levelFilter, levelFilterNew, levelBrightness, levelBrightnessChg;
 JE_boolean  filtrationAvail, filterActive, filterFade, filterFadeStart;
@@ -206,7 +167,7 @@ JE_boolean galagaMode;
 
 JE_boolean extraGame;
 
-JE_boolean twoPlayerMode, twoPlayerLinked, onePlayerAction, superTyrian;
+JE_boolean twoPlayerMode, twoPlayerLinked, onePlayerAction, timedBattleMode, superTyrian;
 JE_boolean trentWin = false;
 JE_byte    superArcadeMode;
 
@@ -230,7 +191,7 @@ JE_boolean explosionTransparent,
 
 JE_byte soundEffects; // dummy value for config
 JE_byte versionNum;   /* SW 1.0 and SW/Reg 1.1 = 0 or 1
-                       * EA 1.2 = 2 */
+                       * EA 1.2 = 2        T2K = 3*/
 
 JE_byte    fastPlay;
 JE_boolean pentiumMode;
@@ -242,6 +203,8 @@ JE_byte    processorType;  /* 1=386 2=486 3=Pentium Hyper */
 JE_SaveFilesType saveFiles; /*array[1..saveLevelnum] of savefiletype;*/
 JE_SaveGameTemp saveTemp;
 
+T2KHighScoreType t2kHighScores[20][3];
+
 JE_word editorLevel;   /*Initial value 800*/
 
 Config opentyrian_config;  // implicitly initialized
@@ -251,13 +214,15 @@ bool load_opentyrian_config( void )
 	// defaults
 	fullscreen_display = -1;
 	set_scaler_by_name("Scale2x");
+	memcpy(keySettings, defaultKeySettings, sizeof(keySettings));
+	memcpy(mouseSettings, defaultMouseSettings, sizeof(mouseSettings));
 	
 	Config *config = &opentyrian_config;
 	
 	FILE *file = dir_fopen_warn(get_user_directory(), "opentyrian.cfg", "r");
 	if (file == NULL)
 		return false;
-	
+
 	if (!config_parse(config, file))
 	{
 		fclose(file);
@@ -281,8 +246,6 @@ bool load_opentyrian_config( void )
 			set_scaling_mode_by_name(scaling_mode);
 	}
 
-	memcpy(keySettings, defaultKeySettings, sizeof(keySettings));
-
 	section = config_find_section(config, "keyboard", NULL);
 	if (section != NULL)
 	{
@@ -294,6 +257,26 @@ bool load_opentyrian_config( void )
 				SDL_Scancode scancode = SDL_GetScancodeFromName(keyName);
 				if (scancode != SDL_SCANCODE_UNKNOWN)
 					keySettings[i] = scancode;
+			}
+		}
+	}
+
+	section = config_find_section(config, "mouse", NULL);
+	if (section != NULL)
+	{
+		for (size_t i = 0; i < COUNTOF(mouseSettings); ++i)
+		{
+			const char *mouseValue;
+			if (config_get_string_option(section, mouseSettingNames[i], &mouseValue))
+			{
+				for (size_t val = 1; val <= COUNTOF(mouseSettingValues); ++val)
+				{
+					if (strcmp(mouseValue, mouseSettingValues[val - 1]))
+						continue;
+
+					mouseSettings[i] = val;
+					break;
+				}
 			}
 		}
 	}
@@ -336,11 +319,19 @@ bool save_opentyrian_config( void )
 #else
 	mkdir(get_user_directory());
 #endif
+
+	// Tyrian 2000 doesn't save mouse settings, so we do it ourselves
+	section = config_find_or_add_section(config, "mouse", NULL);
+	if (section == NULL)
+		exit(EXIT_FAILURE);  // out of memory
 	
+	for (size_t i = 0; i < COUNTOF(mouseSettings); ++i)
+		config_set_string_option(section, mouseSettingNames[i], mouseSettingValues[mouseSettings[i] - 1]);
+
 	FILE *file = dir_fopen(get_user_directory(), "opentyrian.cfg", "w");
 	if (file == NULL)
 		return false;
-	
+
 	config_write(config, file);
 	
 #if _POSIX_C_SOURCE >= 1 || _XOPEN_SOURCE || _POSIX_SOURCE
@@ -447,6 +438,7 @@ void JE_loadGame( JE_byte slot )
 	twoPlayerMode = false;
 	extraGame = false;
 	galagaMode = false;
+	timedBattleMode = false;
 
 	initialDifficulty = saveFiles[slot-1].initialDifficulty;
 	gameHasRepeated   = saveFiles[slot-1].gameHasRepeated;
@@ -461,7 +453,7 @@ void JE_loadGame( JE_byte slot )
 		superTyrian = true;
 	if (superArcadeMode != SA_NONE)
 		onePlayerAction = true;
-	if (superArcadeMode > SA_NORTSHIPZ)
+	if (superArcadeMode > SA_LASTSHIP)
 		superArcadeMode = SA_NONE;
 	
 	if (twoPlayerMode)
@@ -755,14 +747,14 @@ const char *get_user_directory( void )
 		char *xdg_config_home = getenv("XDG_CONFIG_HOME");
 		if (xdg_config_home != NULL)
 		{
-			snprintf(user_dir, sizeof(user_dir), "%s/opentyrian", xdg_config_home);
+			snprintf(user_dir, sizeof(user_dir), "%s/opentyrian2000", xdg_config_home);
 		}
 		else
 		{
 			char *home = getenv("HOME");
 			if (home != NULL)
 			{
-				snprintf(user_dir, sizeof(user_dir), "%s/.config/opentyrian", home);
+				snprintf(user_dir, sizeof(user_dir), "%s/.config/opentyrian2000", home);
 			}
 			else
 			{
@@ -780,6 +772,7 @@ const char *get_user_directory( void )
 // for compatibility
 Uint8 joyButtonAssign[4] = {1, 4, 5, 5};
 Uint8 inputDevice_ = 0, jConfigure = 0, midiPort = 1;
+bool configuration_loaded = false;
 
 void JE_loadConfiguration( void )
 {
@@ -828,6 +821,7 @@ void JE_loadConfiguration( void )
 		gammaCorrection = 0;
 		processorType = 3;
 		gameSpeed = 4;
+		versionNum = 3;
 	}
 	
 	load_opentyrian_config();
@@ -909,8 +903,43 @@ void JE_loadConfiguration( void )
 		}
 
 		/* SYN: This is truncating to bytes. I have no idea what this is doing or why. */
-		/* TODO: Figure out what this is about and make sure it isn't broked. */
+		/* TODO: Figure out what this is about and make sure it isn't broken. */
 		editorLevel = (saveTemp[SIZEOF_SAVEGAMETEMP - 5] << 8) | saveTemp[SIZEOF_SAVEGAMETEMP - 6];
+
+		// T2K High Scores are unencrypted after saveTemp
+		for (z = 0; z < 10; ++z)
+		{
+			JE_byte len;
+
+			for (y = 0; y < 3; ++y)
+			{
+				fread_s32_die(&t2kHighScores[z][y].score, 1, fi);
+				t2kHighScores[z][y].score = SDL_SwapLE32(t2kHighScores[z][y].score);
+
+				fread_u8_die(&len, 1, fi);
+				fread_die(t2kHighScores[z][y].playerName, 1, 29, fi);
+
+				t2kHighScores[z][y].playerName[len] = '\0';
+				fread_u8_die(&t2kHighScores[z][y].difficulty, 1, fi);
+			}
+		}
+		for (z = 10; z < 20; ++z)
+		{
+			JE_byte len;
+
+			for (y = 0; y < 3; ++y)
+			{
+				fread_s32_die(&t2kHighScores[z][y].score, 1, fi);
+				t2kHighScores[z][y].score = SDL_SwapLE32(t2kHighScores[z][y].score);
+
+				fseek(fi, 4, SEEK_CUR); // Unknown long int that seems to have no effect
+				fread_u8_die(&len, 1, fi);
+
+				fread_die(t2kHighScores[z][y].playerName, 1, 29, fi);
+				t2kHighScores[z][y].playerName[len] = '\0';
+				fread_u8_die(&t2kHighScores[z][y].difficulty, 1, fi);
+			}
+		}
 
 		fclose(fi);
 	} else {
@@ -937,14 +966,37 @@ void JE_loadConfiguration( void )
 			if (z % 6 > 2)
 			{
 				saveFiles[z].highScore2 = ((mt_rand() % 20) + 1) * 1000;
-				strcpy(saveFiles[z].highScoreName, defaultTeamNames[mt_rand() % 22]);
+				strcpy(saveFiles[z].highScoreName, defaultTeamNames[mt_rand() % COUNTOF(defaultTeamNames)]);
 			} else {
-				strcpy(saveFiles[z].highScoreName, defaultHighScoreNames[mt_rand() % 34]);
+				strcpy(saveFiles[z].highScoreName, defaultHighScoreNames[mt_rand() % COUNTOF(defaultHighScoreNames)]);
+			}
+		}
+
+		for (z = 0; z < 10; ++z)
+		{
+			for (y = 0; y < 3; ++y)
+			{
+				// Timed Battle scores
+				t2kHighScores[z][y].score = ((mt_rand() % 50) + 1) * 100;
+				strcpy(t2kHighScores[z][y].playerName, defaultHighScoreNames[mt_rand() % COUNTOF(defaultHighScoreNames)]);
+			}
+		}
+		for (z = 10; z < 20; ++z)
+		{
+			for (y = 0; y < 3; ++y)
+			{
+				// Main Game scores
+				t2kHighScores[z][y].score = ((mt_rand() % 20) + 1) * 1000;
+				if (z & 1)
+					strcpy(t2kHighScores[z][y].playerName, defaultTeamNames[mt_rand() % COUNTOF(defaultTeamNames)]);
+				else
+					strcpy(t2kHighScores[z][y].playerName, defaultHighScoreNames[mt_rand() % COUNTOF(defaultHighScoreNames)]);
 			}
 		}
 	}
 	
 	JE_initProcessorType();
+	configuration_loaded = true;
 }
 
 void JE_saveConfiguration( void )
@@ -952,6 +1004,10 @@ void JE_saveConfiguration( void )
 	FILE *f;
 	JE_byte *p;
 	int z;
+
+	// Don't save nothing
+	if (!configuration_loaded)
+		return;
 
 	p = saveTemp;
 	for (z = 0; z < SAVE_FILES_NUM; z++)
@@ -1027,6 +1083,43 @@ void JE_saveConfiguration( void )
 	if (f != NULL)
 	{
 		fwrite_die(saveTemp, 1, sizeof(saveTemp), f);
+
+		// T2K High Scores are unencrypted after saveTemp
+		for (z = 0; z < 10; ++z)
+		{
+			JE_longint templi;
+			JE_byte len;
+
+			for (y = 0; y < 3; ++y)
+			{
+				templi = SDL_SwapLE32(t2kHighScores[z][y].score);
+				len = strlen(t2kHighScores[z][y].playerName);
+				fwrite_s32_die(&templi, f);
+
+				fwrite_u8_die(&len, 1, f);
+				fwrite_die(t2kHighScores[z][y].playerName, 1, 29, f);
+				fwrite_u8_die(&t2kHighScores[z][y].difficulty, 1, f);
+			}
+		}
+		for (z = 10; z < 20; ++z)
+		{
+			JE_longint templi;
+			JE_byte len;
+
+			for (y = 0; y < 3; ++y)
+			{
+				templi = SDL_SwapLE32(t2kHighScores[z][y].score);
+				len = strlen(t2kHighScores[z][y].playerName);
+				fwrite_s32_die(&templi, f);
+
+				templi = 0x12345678;
+				fwrite_s32_die(&templi, f); // Unknown long int that seems to have no effect
+
+				fwrite_u8_die(&len, 1, f);
+				fwrite_die(t2kHighScores[z][y].playerName, 1, 29, f);
+				fwrite_u8_die(&t2kHighScores[z][y].difficulty, 1, f);
+			}
+		}
 
 #if _POSIX_C_SOURCE >= 1 || _XOPEN_SOURCE || _POSIX_SOURCE
 		fsync(fileno(f));

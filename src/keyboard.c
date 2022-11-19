@@ -18,6 +18,7 @@
  */
 #include "keyboard.h"
 
+#include "config.h"
 #include "joystick.h"
 #include "network.h"
 #include "opentyr.h"
@@ -35,7 +36,7 @@ SDL_Scancode lastkey_scan;
 SDL_Keymod lastkey_mod;
 Uint8 lastmouse_but;
 Uint16 lastmouse_x, lastmouse_y;
-JE_boolean mouse_pressed[3] = {false, false, false};
+JE_boolean mouse_pressed[4] = {false, false, false, false};
 Uint16 mouse_x, mouse_y;
 
 Uint8 keysactive[SDL_NUM_SCANCODES];
@@ -125,6 +126,8 @@ void set_mouse_position( int x, int y )
 		mouse_x = x;
 		mouse_y = y;
 		map_screen_to_window_pos(&x, &y);
+		SDL_PumpEvents();
+		SDL_FlushEvent(SDL_MOUSEMOTION);
 		SDL_WarpMouseInWindow(main_window, x, y);
 	}
 }
@@ -228,14 +231,35 @@ void service_SDL_events( JE_boolean clear_new )
 				{
 					mousedown = false;
 				}
+
+				int whichMB = -1;
 				switch (ev.button.button)
 				{
-					case SDL_BUTTON_LEFT:
-						mouse_pressed[0] = mousedown; break;
-					case SDL_BUTTON_RIGHT:
-						mouse_pressed[1] = mousedown; break;
-					case SDL_BUTTON_MIDDLE:
-						mouse_pressed[2] = mousedown; break;
+					case SDL_BUTTON_LEFT:   whichMB = 0; break;
+					case SDL_BUTTON_RIGHT:  whichMB = 1; break;
+					case SDL_BUTTON_MIDDLE: whichMB = 2; break;
+				}
+				if (whichMB < 0)
+					break;
+
+				switch (mouseSettings[whichMB])
+				{
+					case 1: // Fire Main Weapons
+						mouse_pressed[0] = mousedown;
+						break;
+					case 2: // Fire Left Sidekick
+						mouse_pressed[1] = mousedown;
+						break;
+					case 3: // Fire Right Sidekick
+						mouse_pressed[2] = mousedown;
+						break;
+					case 4: // Fire BOTH Sidekicks
+						mouse_pressed[1] = mousedown;
+						mouse_pressed[2] = mousedown;
+						break;
+					case 5: // Change Rear Mode
+						mouse_pressed[3] = mousedown;
+						break;
 				}
 				break;
 

@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Application
-Name=OpenTyrian
+Name=OpenTyrian2000
 Comment=An arcade-style shoot 'em up
-Icon=opentyrian
+Icon=opentyrian2000
 Categories=Game;ArcadeGame;
-TryExec=opentyrian
-Exec=opentyrian
+TryExec=opentyrian2000
+Exec=opentyrian2000
 Terminal=false
 

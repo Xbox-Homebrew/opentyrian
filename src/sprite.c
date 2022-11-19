@@ -29,7 +29,7 @@
 Sprite_array sprite_table[SPRITE_TABLES_MAX];
 
 Sprite2_array eShapes[6];
-Sprite2_array shapesC1, shapes6, shapes9, shapesW2;
+Sprite2_array shapesC1, shapes6, shapes9, shapesW2, shapesT2k;
 
 void load_sprites_file( unsigned int table, const char *filename )
 {
@@ -672,7 +672,7 @@ void blit_sprite2x2_darken( SDL_Surface *surface, int x, int y, Sprite2_array sp
 
 void JE_loadMainShapeTables( const char *shpfile )
 {
-	enum { SHP_NUM = 12 };
+	enum { SHP_NUM = 13 };
 	
 	FILE *f = dir_fopen_die(data_dir(), shpfile, "rb");
 	
@@ -719,6 +719,11 @@ void JE_loadMainShapeTables( const char *shpfile )
 	// more player shot sprites
 	shapesW2.size = shpPos[i + 1] - shpPos[i];
 	JE_loadCompShapesB(&shapesW2, f);
+	i++;
+
+	// tyrian 2000 ship sprites
+	shapesT2k.size = shpPos[i + 1] - shpPos[i];
+	JE_loadCompShapesB(&shapesT2k , f);
 	
 	fclose(f);
 }

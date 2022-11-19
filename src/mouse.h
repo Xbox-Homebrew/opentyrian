@@ -24,7 +24,6 @@
 #include "SDL.h"
 
 extern bool has_mouse;
-extern bool mouse_has_three_buttons;
 
 extern JE_word lastMouseX, lastMouseY;
 extern JE_byte mouseCursor;

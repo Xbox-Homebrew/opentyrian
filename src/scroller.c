@@ -37,13 +37,15 @@
 
 const struct about_text_type about_text[] =
 {
-	{0x30, "----- ~OpenTyrian~ -----"},
+	{0x30, "----- ~OpenTyrian2000~ -----"},
 	{0x00, ""},
-	{0x0b, "...eliminating Microsol,"},
-	{0x0b, "one planet at a time..."},
+	{0x0f, "A ~fork~ of OpenTyrian"},
+	{0x0f, "developed by"},
+	{0x00, ""},
+	{0x02, "Kaito Sinclaire // KScl"},
 	{0x00, ""},
 	{0x00, ""},
-	{0x30, "----- ~Developers~ -----"},
+	{0x30, "----- ~OpenTyrian Devs~ -----"},
 	{0x00, ""},
 	{0x03, "Carl Reinke // Mindless"},
 	{0x07, "Yuri Schlesner // yuriks"},

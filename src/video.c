@@ -88,7 +88,7 @@ void init_video( void )
 
 	// Create the window with a temporary initial size, hidden until we set up the
 	// scaler and find the true window size
-	main_window = SDL_CreateWindow("OpenTyrian",
+	main_window = SDL_CreateWindow(opentyrian_str,
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		vga_width, vga_height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN);
 

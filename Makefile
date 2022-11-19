@@ -5,7 +5,7 @@ ifneq ($(filter Msys Cygwin, $(shell uname -o)), )
     TYRIAN_DIR = C:\\TYRIAN
 else
     PLATFORM := UNIX
-    TYRIAN_DIR = $(gamesdir)/tyrian
+    TYRIAN_DIR = $(gamesdir)/opentyrian2000
 endif
 
 WITH_NETWORK := true
@@ -31,18 +31,18 @@ exec_prefix ?= $(prefix)
 bindir ?= $(exec_prefix)/bin
 datarootdir ?= $(prefix)/share
 datadir ?= $(datarootdir)
-docdir ?= $(datarootdir)/doc/opentyrian
+docdir ?= $(datarootdir)/doc/opentyrian2000
 mandir ?= $(datarootdir)/man
 man6dir ?= $(mandir)/man6
 man6ext ?= .6
 
-# see http://www.pathname.com/fhs/pub/fhs-2.3.html
+# see https://www.pathname.com/fhs/pub/fhs-2.3.html
 
 gamesdir ?= $(datadir)/games
 
 ###
 
-TARGET := opentyrian
+TARGET := opentyrian2000
 
 SRCS := $(wildcard src/*.c)
 OBJS := $(SRCS:src/%.c=obj/%.o)
@@ -115,13 +115,13 @@ installdirs :
 install : $(TARGET) installdirs
 	$(INSTALL_PROGRAM) $(TARGET) $(DESTDIR)$(bindir)/
 	$(INSTALL_DATA) CREDITS NEWS README $(DESTDIR)$(docdir)/
-	$(INSTALL_DATA) linux/man/opentyrian.6 $(DESTDIR)$(man6dir)/opentyrian$(man6ext)
+	$(INSTALL_DATA) linux/man/opentyrian.6 $(DESTDIR)$(man6dir)/opentyrian2000$(man6ext)
 
 .PHONY : uninstall
 uninstall :
 	rm -f $(DESTDIR)$(bindir)/$(TARGET)
 	rm -f $(DESTDIR)$(docdir)/{CREDITS,NEWS,README}
-	rm -f $(DESTDIR)$(man6dir)/opentyrian$(man6ext)
+	rm -f $(DESTDIR)$(man6dir)/opentyrian2000$(man6ext)
 
 .PHONY : clean
 clean :

@@ -28,7 +28,7 @@
 
 #define FIRST_LEVEL 1
 #define EPISODE_MAX 5
-#define EPISODE_AVAILABLE 4
+#define EPISODE_AVAILABLE 5
 
 typedef struct
 {
