@@ -52,6 +52,7 @@ const struct Scalers scalers[] =
 	{ 3 * vga_width, 3 * vga_height, NULL,       hq3x_32,    "hq3x" },
 	{ 4 * vga_width, 4 * vga_height, nn_16,      nn_32,      "4x" },
 	{ 4 * vga_width, 4 * vga_height, NULL,       hq4x_32,    "hq4x" },
+	{ 5 * vga_width, 5 * vga_height, nn_16,      nn_32,      "5x" },
 };
 const uint scalers_count = COUNTOF(scalers);
 

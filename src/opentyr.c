@@ -337,6 +337,8 @@ int main( int argc, char *argv[] )
 		return -1;
 	}
 
+	SDL_SetHint(SDL_HINT_WINRT_HANDLE_BACK_BUTTON, "1");
+
 	// Note for this reorganization:
 	// Tyrian 2000 requires help text to be loaded before the configuration,
 	// because the default high score names are stored in help text
