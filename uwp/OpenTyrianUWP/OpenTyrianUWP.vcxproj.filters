@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2-WinRTResource_BlankCursor.cur" />
+    <None Include="OpenTyrianUWP2000_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL2-WinRTResources.rc" />
