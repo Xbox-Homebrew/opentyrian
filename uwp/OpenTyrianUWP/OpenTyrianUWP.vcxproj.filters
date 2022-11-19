@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>0efa97aa-b658-47db-b6af-5eb5bc48e195</UniqueIdentifier>
+      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
+    </Filter>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\animlib.c" />
+    <ClCompile Include="..\..\src\arg_parse.c" />
+    <ClCompile Include="..\..\src\backgrnd.c" />
+    <ClCompile Include="..\..\src\config.c" />
+    <ClCompile Include="..\..\src\config_file.c" />
+    <ClCompile Include="..\..\src\destruct.c" />
+    <ClCompile Include="..\..\src\editship.c" />
+    <ClCompile Include="..\..\src\episodes.c" />
+    <ClCompile Include="..\..\src\file.c" />
+    <ClCompile Include="..\..\src\font.c" />
+    <ClCompile Include="..\..\src\fonthand.c" />
+    <ClCompile Include="..\..\src\game_menu.c" />
+    <ClCompile Include="..\..\src\helptext.c" />
+    <ClCompile Include="..\..\src\joystick.c" />
+    <ClCompile Include="..\..\src\jukebox.c" />
+    <ClCompile Include="..\..\src\keyboard.c" />
+    <ClCompile Include="..\..\src\lds_play.c" />
+    <ClCompile Include="..\..\src\loudness.c" />
+    <ClCompile Include="..\..\src\lvllib.c" />
+    <ClCompile Include="..\..\src\lvlmast.c" />
+    <ClCompile Include="..\..\src\mainint.c" />
+    <ClCompile Include="..\..\src\menus.c" />
+    <ClCompile Include="..\..\src\mouse.c" />
+    <ClCompile Include="..\..\src\mtrand.c" />
+    <ClCompile Include="..\..\src\musmast.c" />
+    <ClCompile Include="..\..\src\network.c" />
+    <ClCompile Include="..\..\src\nortsong.c" />
+    <ClCompile Include="..\..\src\nortvars.c" />
+    <ClCompile Include="..\..\src\opentyr.c" />
+    <ClCompile Include="..\..\src\opl.c" />
+    <ClCompile Include="..\..\src\palette.c" />
+    <ClCompile Include="..\..\src\params.c" />
+    <ClCompile Include="..\..\src\pcxload.c" />
+    <ClCompile Include="..\..\src\pcxmast.c" />
+    <ClCompile Include="..\..\src\picload.c" />
+    <ClCompile Include="..\..\src\player.c" />
+    <ClCompile Include="..\..\src\shots.c" />
+    <ClCompile Include="..\..\src\sizebuf.c" />
+    <ClCompile Include="..\..\src\sndmast.c" />
+    <ClCompile Include="..\..\src\sprite.c" />
+    <ClCompile Include="..\..\src\starlib.c" />
+    <ClCompile Include="..\..\src\tyrian2.c" />
+    <ClCompile Include="..\..\src\varz.c" />
+    <ClCompile Include="..\..\src\vga_palette.c" />
+    <ClCompile Include="..\..\src\vga256d.c" />
+    <ClCompile Include="..\..\src\video.c" />
+    <ClCompile Include="..\..\src\video_scale.c" />
+    <ClCompile Include="..\..\src\video_scale_hqNx.c" />
+    <ClCompile Include="..\..\src\xmas.c" />
+    <ClCompile Include="..\..\src\SDL_winrt_main_NonXAML.cpp" />
+    <ClCompile Include="..\..\src\uwpfunc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\animlib.h" />
+    <ClInclude Include="..\..\src\arg_parse.h" />
+    <ClInclude Include="..\..\src\backgrnd.h" />
+    <ClInclude Include="..\..\src\config.h" />
+    <ClInclude Include="..\..\src\config_file.h" />
+    <ClInclude Include="..\..\src\destruct.h" />
+    <ClInclude Include="..\..\src\editship.h" />
+    <ClInclude Include="..\..\src\episodes.h" />
+    <ClInclude Include="..\..\src\file.h" />
+    <ClInclude Include="..\..\src\font.h" />
+    <ClInclude Include="..\..\src\fonthand.h" />
+    <ClInclude Include="..\..\src\game_menu.h" />
+    <ClInclude Include="..\..\src\helptext.h" />
+    <ClInclude Include="..\..\src\joystick.h" />
+    <ClInclude Include="..\..\src\jukebox.h" />
+    <ClInclude Include="..\..\src\keyboard.h" />
+    <ClInclude Include="..\..\src\lds_play.h" />
+    <ClInclude Include="..\..\src\loudness.h" />
+    <ClInclude Include="..\..\src\lvllib.h" />
+    <ClInclude Include="..\..\src\lvlmast.h" />
+    <ClInclude Include="..\..\src\mainint.h" />
+    <ClInclude Include="..\..\src\menus.h" />
+    <ClInclude Include="..\..\src\mouse.h" />
+    <ClInclude Include="..\..\src\mtrand.h" />
+    <ClInclude Include="..\..\src\musmast.h" />
+    <ClInclude Include="..\..\src\network.h" />
+    <ClInclude Include="..\..\src\nortsong.h" />
+    <ClInclude Include="..\..\src\nortvars.h" />
+    <ClInclude Include="..\..\src\opentyr.h" />
+    <ClInclude Include="..\..\src\opentyrian_version.h" />
+    <ClInclude Include="..\..\src\opl.h" />
+    <ClInclude Include="..\..\src\palette.h" />
+    <ClInclude Include="..\..\src\params.h" />
+    <ClInclude Include="..\..\src\pcxload.h" />
+    <ClInclude Include="..\..\src\pcxmast.h" />
+    <ClInclude Include="..\..\src\picload.h" />
+    <ClInclude Include="..\..\src\player.h" />
+    <ClInclude Include="..\..\src\shots.h" />
+    <ClInclude Include="..\..\src\sizebuf.h" />
+    <ClInclude Include="..\..\src\sndmast.h" />
+    <ClInclude Include="..\..\src\sprite.h" />
+    <ClInclude Include="..\..\src\starlib.h" />
+    <ClInclude Include="..\..\src\tyrian2.h" />
+    <ClInclude Include="..\..\src\varz.h" />
+    <ClInclude Include="..\..\src\vga_palette.h" />
+    <ClInclude Include="..\..\src\vga256d.h" />
+    <ClInclude Include="..\..\src\video.h" />
+    <ClInclude Include="..\..\src\video_scale.h" />
+    <ClInclude Include="..\..\src\xmas.h" />
+    <ClInclude Include="..\..\src\uwpfunc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\SDL2-WinRTResource_BlankCursor.cur" />
+    <None Include="OpenTyrianUWP_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\src\SDL2-WinRTResources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\SmallTile.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-16.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-32.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-48.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-256.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
