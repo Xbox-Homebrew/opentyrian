@@ -331,9 +331,29 @@ void reset_joystick_assignments(int j)
 		{
 			if (SDL_JoystickNumAxes(joystick[j].handle) >= 2)
 			{
+				int b = a + (a % 2 * -1) + ((1 - a % 2) * 1);
 				joystick[j].assignment[a][0].type = AXIS;
-				joystick[j].assignment[a][0].num = (a + 1) % 2;
-				joystick[j].assignment[a][0].negative_axis = (a == 0 || a == 3);
+				joystick[j].assignment[a][0].num = (b + 1) % 2;
+				joystick[j].assignment[a][0].negative_axis = (b == 2 || b == 3);
+				switch (b)
+				{
+					case(0):
+						joystick[j].assignment[a][1].type = BUTTON;
+						joystick[j].assignment[a][1].num = 11;
+						break;
+					case(1):
+						joystick[j].assignment[a][1].type = BUTTON;
+						joystick[j].assignment[a][1].num = 10;
+						break;
+					case(2):
+						joystick[j].assignment[a][1].type = BUTTON;
+						joystick[j].assignment[a][1].num = 13;
+						break;
+					case(3):
+						joystick[j].assignment[a][1].type = BUTTON;
+						joystick[j].assignment[a][1].num = 12;
+						break;
+				}
 			}
 			
 			if (SDL_JoystickNumHats(joystick[j].handle) >= 1)

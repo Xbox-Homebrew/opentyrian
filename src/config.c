@@ -30,6 +30,7 @@
 #include "vga256d.h"
 #include "video.h"
 #include "video_scale.h"
+#include "uwpfunc.h"
 
 #include <stdio.h>
 #include <sys/stat.h>
@@ -745,8 +746,12 @@ void JE_decryptSaveTemp(void)
 
 const char *get_user_directory(void)
 {
-	static char user_dir[500] = "";
 	
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+	char user_dir[255];
+	uwp_get_localfolder("", user_dir);
+#else
+	static char user_dir[500] = "";
 	if (strlen(user_dir) == 0)
 	{
 #ifndef TARGET_WIN32
@@ -771,6 +776,7 @@ const char *get_user_directory(void)
 		strcpy(user_dir, ".");
 #endif
 	}
+#endif
 	
 	return user_dir;
 }

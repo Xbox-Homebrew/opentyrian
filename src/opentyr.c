@@ -763,6 +763,8 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+	SDL_SetHint(SDL_HINT_WINRT_HANDLE_BACK_BUTTON, "1");
+	
 	JE_loadConfiguration();
 
 	xmas = xmas_time();  // arg handler may override

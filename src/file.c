@@ -20,6 +20,7 @@
 
 #include "opentyr.h"
 #include "varz.h"
+#include "uwpfunc.h"
 
 #include "SDL.h"
 
@@ -31,17 +32,21 @@
 const char *custom_data_dir = NULL;
 
 // finds the Tyrian data directory
-const char *data_dir(void)
+const char* data_dir(void)
 {
-	const char *const dirs[] =
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+	char dir[256];
+	uwp_get_localfolder("", dir);
+#else
+	const char* const dirs[] =
 	{
 		custom_data_dir,
-		TYRIAN_DIR,
+		//TYRIAN_DIR,
 		"data",
 		".",
 	};
 
-	static const char *dir = NULL;
+	static const char* dir = NULL;
 
 	if (dir != NULL)
 		return dir;
@@ -51,7 +56,7 @@ const char *data_dir(void)
 		if (dirs[i] == NULL)
 			continue;
 
-		FILE *f = dir_fopen(dirs[i], "tyrian1.lvl", "rb");
+		FILE* f = dir_fopen(dirs[i], "tyrian1.lvl", "rb");
 		if (f)
 		{
 			fclose(f);
@@ -59,11 +64,11 @@ const char *data_dir(void)
 			dir = dirs[i];
 			break;
 		}
-	}
+}
 
 	if (dir == NULL) // data not found
 		dir = "";
-
+#endif
 	return dir;
 }
 
