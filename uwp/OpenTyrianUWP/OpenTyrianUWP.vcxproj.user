@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Source>C:\Users\Tunip3\Downloads\tyrian2000.png</Source>
+    <SmallTileSource>C:\Users\Tunip3\Downloads\tyrian2000.png</SmallTileSource>
+    <MediumTileSource>C:\Users\Tunip3\Downloads\tyrian2000.png</MediumTileSource>
+    <WideTileSource>C:\Users\Tunip3\Downloads\tyrian2000.png</WideTileSource>
+    <LargeTileSource>C:\Users\Tunip3\Downloads\tyrian2000.png</LargeTileSource>
+    <AppIconSource>C:\Users\Tunip3\Downloads\tyrian2000.png</AppIconSource>
+    <SplashScreenSource>C:\Users\Tunip3\Downloads\tyrian2000.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\Tunip3\Downloads\tyrian2000.png</PackageLogoSource>
+  </PropertyGroup>
+</Project>

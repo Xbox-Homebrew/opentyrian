@@ -30,6 +30,7 @@
 #include "vga256d.h"
 #include "video.h"
 #include "video_scale.h"
+#include "uwpfunc.h"
 
 #include <stdio.h>
 #include <sys/stat.h>
@@ -739,32 +740,36 @@ void JE_decryptSaveTemp( void )
 
 const char *get_user_directory( void )
 {
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+	char user_dir[255];
+	uwp_get_localfolder("", user_dir);
+#else
 	static char user_dir[500] = "";
-	
 	if (strlen(user_dir) == 0)
 	{
 #ifndef TARGET_WIN32
-		char *xdg_config_home = getenv("XDG_CONFIG_HOME");
+		char* xdg_config_home = getenv("XDG_CONFIG_HOME");
 		if (xdg_config_home != NULL)
 		{
-			snprintf(user_dir, sizeof(user_dir), "%s/opentyrian2000", xdg_config_home);
+			snprintf(user_dir, sizeof(user_dir), "%s/opentyrian", xdg_config_home);
 		}
 		else
 		{
-			char *home = getenv("HOME");
+			char* home = getenv("HOME");
 			if (home != NULL)
 			{
-				snprintf(user_dir, sizeof(user_dir), "%s/.config/opentyrian2000", home);
+				snprintf(user_dir, sizeof(user_dir), "%s/.config/opentyrian", home);
 			}
 			else
 			{
 				strcpy(user_dir, ".");
 			}
-		}
+			}
 #else
 		strcpy(user_dir, ".");
 #endif
-	}
+		}
+#endif
 	
 	return user_dir;
 }
