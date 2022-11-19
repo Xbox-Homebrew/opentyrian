@@ -9,7 +9,7 @@
   <Identity
     Name="3235501a-ac3b-46b9-8808-2952a0cf7df1"
     Publisher="CN=Tunip3"
-    Version="1.0.0.0" />
+    Version="1.0.2.0" />
 
   <mp:PhoneIdentity PhoneProductId="3235501a-ac3b-46b9-8808-2952a0cf7df1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

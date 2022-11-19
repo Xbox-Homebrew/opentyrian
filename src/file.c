@@ -34,7 +34,7 @@ const char *custom_data_dir = NULL;
 // finds the Tyrian data directory
 const char* data_dir(void)
 {
-#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY != WINAPI_FAMILY_APP)
 	char dir[256];
 	uwp_get_localfolder("", dir);
 #else
