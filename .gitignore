@@ -34,3 +34,5 @@ tyrian.sav
 
 # Doxygen output
 /doc/doxygen/
+/uwp/OpenTyrianUWP
+/.vs
